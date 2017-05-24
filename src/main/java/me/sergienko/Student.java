@@ -1,3 +1,5 @@
+package me.sergienko;
+
 import java.util.Date;
 
 /**
@@ -5,17 +7,17 @@ import java.util.Date;
  */
 public class Student {
     private String name;
-    private String sur_name;
-    private int group_id;
-    private Date enrolment_date;
-    private double rating_ege;
+    private String surName;
+    private int groupId;
+    private Date enrolmentDate;
+    private double ratingEge;
 
     public double getRating_ege() {
-        return rating_ege;
+        return ratingEge;
     }
 
     public void setRating_ege(double rating_ege) {
-        this.rating_ege = rating_ege;
+        this.ratingEge = rating_ege;
     }
 
     public String getName() {
@@ -23,15 +25,15 @@ public class Student {
     }
 
     public String getSur_name() {
-        return sur_name;
+        return surName;
     }
 
     public int getGroup_id() {
-        return group_id;
+        return groupId;
     }
 
     public Date getEnrolment_date() {
-        return enrolment_date;
+        return enrolmentDate;
     }
 
     public void setName(String name) {
@@ -39,14 +41,14 @@ public class Student {
     }
 
     public void setSur_name(String sur_name) {
-        this.sur_name = sur_name;
+        this.surName = sur_name;
     }
 
     public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+        this.groupId = group_id;
     }
 
     public void setEnrolment_date(Date enrolment_date) {
-        this.enrolment_date = enrolment_date;
+        this.enrolmentDate = enrolment_date;
     }
 }
