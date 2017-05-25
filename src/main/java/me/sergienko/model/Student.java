@@ -1,4 +1,4 @@
-package me.sergienko;
+package me.sergienko.model;
 
 import java.util.Date;
 

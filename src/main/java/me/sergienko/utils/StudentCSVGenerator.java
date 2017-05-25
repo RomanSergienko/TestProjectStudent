@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class GeneratorStudentInCSV {
+public class StudentCSVGenerator {
 
     private static List<String> maleNames = Arrays.asList("Андрей", "Глеб", "Константин", "Вениамин", "Денис", "Шарль",
             "Абрам", "Руслан", "Юрий", "Кирилл", "Борис", "Артем", "Всеволод", "Один", "Федор");
@@ -19,11 +19,11 @@ public class GeneratorStudentInCSV {
     private static List<String> femaleSurNames = Arrays.asList("Капустина", "Осипова", "Путинцева", "Белова",
             "Горбунова", "Борисова", "Цветкова", "Орлова", "Федорова", "Ильина");
 
-    private static int id = 1; //for generate primary key for db
+    private int id = 1; //for generate primary key for db
 
     public static void main(String[] args) throws IOException, ParseException {
 
-        GeneratorStudentInCSV generatorStudentInCSV = new GeneratorStudentInCSV();
+        StudentCSVGenerator generatorStudentInCSV = new StudentCSVGenerator();
 
         String filename = args[0];
         int studentAmount = Integer.parseInt(args[1]);
@@ -58,6 +58,8 @@ public class GeneratorStudentInCSV {
         //generate rating Ege
         double ratingEGE = 60 + rnd.nextDouble() * 40.0;
         //generate random date between 1990/0/0 and current date
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD");
         Date d1 = simpleDateFormat.parse("1990-00-00");
         Date currentDate = new Date();
