@@ -1,12 +1,4 @@
-/**
- * Created by Роман on 23.05.2017.
- * Generate and write to csv file  random student
- * Parametrs
- * args[0] - path to *.csv file
- * args[1] - Number of students to generate
- */
 package me.sergienko.utils;
-
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,31 +8,31 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class StudentCSVGenerate {
+public class GeneratorStudentInCSV {
 
-    public static List<String> maleNames = Arrays.asList("Андрей", "Глеб", "Константин", "Вениамин", "Денис", "Шарль",
+    private static List<String> maleNames = Arrays.asList("Андрей", "Глеб", "Константин", "Вениамин", "Денис", "Шарль",
             "Абрам", "Руслан", "Юрий", "Кирилл", "Борис", "Артем", "Всеволод", "Один", "Федор");
-    public static List<String> maleSurNames = Arrays.asList("Петров", "Пивоваров", "Алексеев", "Михайлов", "Окшаньский",
+    private static List<String> maleSurNames = Arrays.asList("Петров", "Пивоваров", "Алексеев", "Михайлов", "Окшаньский",
             "Смирнов", "Григорьев", "Соколов", "Бутылкин", "Фёдоров", "Павлов", "Грозный", "Веселов", "Ким", "Непейпиво");
-    public static List<String> femaleNames = Arrays.asList("Земфира", "Марина", "Елизавета", "Вероника", "Лидия",
+    private static List<String> femaleNames = Arrays.asList("Земфира", "Марина", "Елизавета", "Вероника", "Лидия",
             "Яна", "Любовь", "Дарья", "Ирина", "Моника");
-    public static List<String> femaleSurNames = Arrays.asList("Капустина", "Осипова", "Путинцева", "Белова",
+    private static List<String> femaleSurNames = Arrays.asList("Капустина", "Осипова", "Путинцева", "Белова",
             "Горбунова", "Борисова", "Цветкова", "Орлова", "Федорова", "Ильина");
 
-    public static int id = 1;
+    private static int id = 1; //for generate primary key for db
 
     public static void main(String[] args) throws IOException, ParseException {
 
-        StudentCSVGenerate studentCSVGenerate = new StudentCSVGenerate();
+        GeneratorStudentInCSV generatorStudentInCSV = new GeneratorStudentInCSV();
 
-        String filename = "mytest.csv";
-        int studentAmount = 1000;
+        String filename = args[0];
+        int studentAmount = Integer.parseInt(args[1]);
 
 
         try (FileWriter fw = new FileWriter(filename)) {
 
             for (int i = 0; i < studentAmount; i++) {
-                String entry = studentCSVGenerate.generateStudent();
+                String entry = generatorStudentInCSV.generateStudent();
                 fw.write(entry);
             }
         }
@@ -72,7 +64,7 @@ public class StudentCSVGenerate {
         long tmp = currentDate.getTime() - d1.getTime();
         Date enrolmentDate = new Date(d1.getTime() + ThreadLocalRandom.current().nextLong(tmp));
 
-        return String.format("%d;%s;%s;%.2f;%tF\n", groupId, name, surname, ratingEGE, enrolmentDate);
+        return String.format(Locale.ROOT, "%d;%d;%s;%s;%.2f;%tF\n", id++, groupId, name, surname, ratingEGE, enrolmentDate);
     }
 
 
