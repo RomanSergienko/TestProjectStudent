@@ -3,9 +3,7 @@ package me.sergienko.utils;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class StudentCSVGenerator {
@@ -57,14 +55,9 @@ public class StudentCSVGenerator {
         int groupId = 100 + rnd.nextInt(50);
         //generate rating Ege
         double ratingEGE = 60 + rnd.nextDouble() * 40.0;
-        //generate random date between 1990/0/0 and current date
-        GregorianCalendar gregorianCalendar = new GregorianCalendar();
-        gregorianCalendar.getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD");
-        Date d1 = simpleDateFormat.parse("1990-00-00");
-        Date currentDate = new Date();
-        long tmp = currentDate.getTime() - d1.getTime();
-        Date enrolmentDate = new Date(d1.getTime() + ThreadLocalRandom.current().nextLong(tmp));
+        //generate random date between 1990/0/0 and 2016
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(1990 + rnd.nextInt(26), rnd.nextInt(11), rnd.nextInt(28));
+        Date enrolmentDate = gregorianCalendar.getTime();
 
         return String.format(Locale.ROOT, "%d;%d;%s;%s;%.2f;%tF\n", id++, groupId, name, surname, ratingEGE, enrolmentDate);
     }
