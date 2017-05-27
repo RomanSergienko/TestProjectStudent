@@ -59,7 +59,7 @@ public class StudentCSVGenerator {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(1990 + rnd.nextInt(26), rnd.nextInt(11), rnd.nextInt(28));
         Date enrolmentDate = gregorianCalendar.getTime();
 
-        return String.format(Locale.ROOT, "%d;%d;%s;%s;%.2f;%tF\n", id++, groupId, name, surname, ratingEGE, enrolmentDate);
+        return String.format(Locale.ROOT, "%d;%s;%s;%.2f;%tF\n", groupId, name, surname, ratingEGE, enrolmentDate);
     }
 
 
