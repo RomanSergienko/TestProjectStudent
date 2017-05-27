@@ -4,6 +4,7 @@ import me.sergienko.model.Student;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,7 +60,30 @@ public class StudentJdbcDAOImpl implements StudentDAO{
 
 
     public void deleteStudent(Integer id) {
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String name = "postgres";
+        String password = "postgres";
+        String delete = "DELETE FROM students WHERE id=" + id;
 
+        try {
+
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, name, password);
+            Statement  statement = connection.createStatement();
+            statement.execute(delete);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
 
     }
 
@@ -70,7 +94,9 @@ public class StudentJdbcDAOImpl implements StudentDAO{
 
 
     public List<Student> listStudents() {
-        return null;
+        List<Student> studentList  = new ArrayList<Student>();
+
+        return studentList;
     }
 
 
