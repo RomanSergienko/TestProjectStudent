@@ -26,12 +26,13 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
             Statement  statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
 
-
-            st.setGroup_id(resultSet.getInt("group_id"));
-            st.setName(resultSet.getString("name"));
-            st.setSur_name(resultSet.getString("sur_name"));
-            st.setRating_ege(resultSet.getDouble("exam_result"));
-            st.setEnrolment_date(resultSet.getDate("enrolment_date"));
+            while (resultSet.next()){
+                st.setGroup_id(resultSet.getInt("group_id"));
+                st.setName(resultSet.getString("name"));
+                st.setSur_name(resultSet.getString("sur_name"));
+                st.setRating_ege(resultSet.getDouble("exam_result"));
+                st.setEnrolment_date(resultSet.getDate("enrolment_date"));
+            }
 
 
 
@@ -111,6 +112,12 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
             }
         }
        return studentList;
+    }
+
+    public static void main (String[] args){
+        StudentJdbcDAOImpl stJdbcDao  = new StudentJdbcDAOImpl();
+        Student st = stJdbcDao.getStudent(1);
+        System.out.println(st.getName()+" "+st.getSur_name());
     }
 
 }

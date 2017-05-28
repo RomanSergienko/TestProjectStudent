@@ -3,7 +3,7 @@ package me.sergienko.dao;
 import java.sql.*;
 
  class GetterConnect {
-    public Connection getConnection() {
+     Connection getConnection() {
         Connection connection = null;
         String url = "jdbc:postgresql://localhost:5432/postgres";
         String name = "postgres";
@@ -15,14 +15,6 @@ import java.sql.*;
             connection = DriverManager.getConnection(url, name, password);
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
         }
         return connection;
     }
