@@ -2,15 +2,22 @@ package me.sergienko.model;
 
 import java.util.Date;
 
-/**
- * Created by Executor on 22.05.2017.
- */
+
 public class Student {
+    private int id;
     private String name;
     private String surName;
     private int groupId;
     private Date enrolmentDate;
     private double ratingEge;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public double getRating_ege() {
         return ratingEge;
