@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS students;
 CREATE TABLE IF NOT EXISTS students (
-	id             SERIAL PRIMARY KEY,
+	id             SERIAL UNIQUE,
 	group_id       int NOT NULL,
 	name           varchar(45) NOT NULL,
 	sur_name       varchar(45) NOT NULL,
