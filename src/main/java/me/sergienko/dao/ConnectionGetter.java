@@ -2,7 +2,7 @@ package me.sergienko.dao;
 
 import java.sql.*;
 
- class GetterConnect {
+ class ConnectionGetter {
      Connection getConnection() {
         Connection connection = null;
         String url = "jdbc:postgresql://localhost:5432/postgres";
