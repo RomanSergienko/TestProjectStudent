@@ -4,6 +4,7 @@ import me.sergienko.model.Student;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -111,12 +112,12 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
     public void updateStudent(Student student) {
         Connection connection = null;
         String update = "UPDATE students SET group_id="
-                +student.getGroup_id()+", name="
-                +student.getName()+", sur_name="
-                +student.getSur_name()+", exam_result="
-                +student.getRating_ege()+", enrolment_date="
-                +student.getEnrolment_date()+ "WHERE id="
-                ;
+                + student.getGroup_id() + ", name='"
+                + student.getName() + "', sur_name='"
+                + student.getSur_name() + "', exam_result="
+                + student.getRating_ege() + ", enrolment_date='"
+                + student.getEnrolment_date() + "' WHERE id="
+                + student.getId();
         try {
             connection = new GetterConnect().getConnection();
             Statement  statement = connection.createStatement();
@@ -171,5 +172,16 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
        return studentList;
     }
 
+    public static void main(String[] args) {
+        StudentJdbcDAOImpl studentJdbcDAO = new StudentJdbcDAOImpl();
+        Student st = new Student();
+        st.setId(2);
+        st.setGroup_id(137);
+        st.setName("Яна");
+        st.setSur_name("Путинцева");
+        st.setRating_ege(80.99);
+        st.setEnrolment_date(new Date(Calendar.getInstance().getTimeInMillis()));
+        studentJdbcDAO.updateStudent(st);
+    }
 
 }
