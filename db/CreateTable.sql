@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS students (
 	enrolment_date date NOT NULL
 );
 COPY students FROM 'C:/mytest.csv' DELIMITER ';' CSV;
+CREATE SEQUENCE id;
+SELECT setval('id', max(id)) FROM students;
