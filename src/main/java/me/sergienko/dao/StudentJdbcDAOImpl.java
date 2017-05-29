@@ -12,9 +12,9 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
 
     public Integer createStudent(Student student) {
         Connection connection = null;
-        int id = 0;
-        String insert = "INSERT INTO students (group_id,name,sur_name,exam_result,enrolment_date)"
-                        +"VALUES("
+
+        String insert = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
+                + "VALUES(nextval('id'),"
                 + student.getGroup_id() + ",'"
                 + student.getName() + "','"
                 + student.getSur_name() + "',"
@@ -25,9 +25,7 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
             connection = new GetterConnect().getConnection();
             Statement st = connection.createStatement();
             st.execute(insert);
-            ResultSet rs = st.getGeneratedKeys();
-            if (rs.next())
-                id = rs.getInt(1);
+
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -40,7 +38,7 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
             }
         }
 
-        return id;
+        return null;
     }
 
 
@@ -173,13 +171,12 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
     public static void main(String[] args) {
         StudentJdbcDAOImpl studentJdbcDAO = new StudentJdbcDAOImpl();
         Student st = new Student();
-        st.setId(1001);
         st.setGroup_id(150);
         st.setName("Лера");
         st.setSur_name("Лысова");
         st.setRating_ege(80.99);
         st.setEnrolment_date(new Date(Calendar.getInstance().getTimeInMillis()));
-        studentJdbcDAO.createStudent(st);
+        System.out.println(studentJdbcDAO.createStudent(st));
     }
 
 }
