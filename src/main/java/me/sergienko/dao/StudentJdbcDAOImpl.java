@@ -12,19 +12,25 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
 
     public Integer createStudent(Student student) {
         Connection connection = null;
+        String insertSql = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
+                + "VALUES(nextval('id'),?,?,?,?,?) RETURNING id";
 
-        String insert = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
-                + "VALUES(nextval('id'),"
-                + student.getGroup_id() + ",'"
-                + student.getName() + "','"
-                + student.getSur_name() + "',"
-                + student.getRating_ege() + ",'"
-                + student.getEnrolment_date() + "')";
 
         try {
             connection = new GetterConnect().getConnection();
-            Statement st = connection.createStatement();
-            st.execute(insert);
+            PreparedStatement st = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, student.getGroup_id());
+            st.setString(2, student.getName());
+            st.setString(3, student.getSur_name());
+            st.setDouble(4, student.getRating_ege());
+            st.setDate(5, (Date) student.getEnrolment_date());
+
+            st.executeUpdate();
+
+            ResultSet genKeys = st.getGeneratedKeys();
+            if (genKeys.next()) {
+                student.setId(genKeys.getInt(1));
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -38,7 +44,7 @@ public class StudentJdbcDAOImpl  implements StudentDAO{
             }
         }
 
-        return null;
+        return student.getId();
     }
 
 
