@@ -6,10 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO replace all statement on prepared statement
-//TODO close statements
+
 //TODO use try with resources
-//TODO read naming convention
 
 
 public class StudentJdbcDAOImpl implements StudentDAO {
@@ -56,18 +54,19 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     public Student getStudent(Integer id) {
 
         Connection connection = null;
-        Student st = null;
-        String select = "SELECT * FROM students WHERE id=" + id;
+        Student student = null;
+        String select = "SELECT * FROM students WHERE id=?";
 
         try {
             connection = new ConnectionGetter().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(select);
+            PreparedStatement prepareStatement = connection.prepareStatement(select);
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
 
             while (resultSet.next()) {
-                st = createStudentFromResultSet(resultSet);
+                student = createStudentFromResultSet(resultSet);
             }
-            statement.close();
+            prepareStatement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -80,7 +79,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
                 }
             }
         }
-        return st;
+        return student;
     }
 
     private Student createStudentFromResultSet(ResultSet resultSet) throws SQLException {
@@ -97,13 +96,14 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
     public void deleteStudent(Integer id) {
         Connection connection = null;
-        String delete = "DELETE FROM students WHERE id=" + id;
+        String delete = "DELETE FROM students WHERE id=?";
 
         try {
             connection = new ConnectionGetter().getConnection();
-            Statement statement = connection.createStatement();
-            statement.execute(delete);
-            statement.close();
+            PreparedStatement preparedStatement = connection.prepareStatement(delete);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -122,18 +122,19 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
     public void updateStudent(Student student) {
         Connection connection = null;
-        String update = "UPDATE students SET group_id="
-                + student.getGroupId() + ", name='"
-                + student.getName() + "', sur_name='"
-                + student.getSurName() + "', exam_result="
-                + student.getRatingEge() + ", enrolment_date='"
-                + student.getEnrolmentDate() + "' WHERE id="
-                + student.getId();
+        String update = "UPDATE students SET group_id=?, name=?, sur_name=?, exam_result=?, enrolment_date=? WHERE id=?";
         try {
             connection = new ConnectionGetter().getConnection();
-            Statement statement = connection.createStatement();
-            statement.execute(update);
-            statement.close();
+            PreparedStatement preparedStatement = connection.prepareStatement(update);
+            preparedStatement.setInt(1, student.getGroupId());
+            preparedStatement.setString(2, student.getName());
+            preparedStatement.setString(3, student.getSurName());
+            preparedStatement.setDouble(4, student.getRatingEge());
+            preparedStatement.setDate(5, (Date) student.getEnrolmentDate());
+            preparedStatement.setInt(6, student.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -179,6 +180,4 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         }
         return studentList;
     }
-
-
 }
