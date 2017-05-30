@@ -10,7 +10,7 @@ import java.util.List;
 //TODO close statements
 //TODO use try with resources
 //TODO read naming convention
-//TODO learn idea hotkeys
+
 
 public class StudentJdbcDAOImpl implements StudentDAO {
 
@@ -67,7 +67,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             while (resultSet.next()) {
                 st = createStudentFromResultSet(resultSet);
             }
-
+            statement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -103,6 +103,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             connection = new ConnectionGetter().getConnection();
             Statement statement = connection.createStatement();
             statement.execute(delete);
+            statement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -132,6 +133,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             connection = new ConnectionGetter().getConnection();
             Statement statement = connection.createStatement();
             statement.execute(update);
+            statement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -162,6 +164,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
                 Student st = createStudentFromResultSet(resultSet);
                 studentList.add(st);
             }
+            statement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -177,12 +180,5 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         return studentList;
     }
 
-    //for testing
-    public static void main(String[] args) {
-        StudentJdbcDAOImpl studentJdbcDAO = new StudentJdbcDAOImpl();
-        for (Student s : studentJdbcDAO.listStudents()) {
-            System.out.println(s);
-        }
-    }
 
 }
