@@ -2,25 +2,55 @@ package me.sergienko.dao;
 
 import me.sergienko.model.Student;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 
 //TODO use try with resources
 
 
 public class StudentJdbcDAOImpl implements StudentDAO {
+    private static Connection CONNECTION;
+
+    public static void initializeConnection() {
+        String url = null;
+        String name = null;
+        String password = null;
+        Properties properties = new Properties();
+
+        try (FileInputStream fis = new FileInputStream("src/main/resources/db.properties")) {
+            properties.load(fis);
+            url = properties.getProperty("db.host");
+            name = properties.getProperty("db.login");
+            password = properties.getProperty("db.password");
+        } catch (FileNotFoundException e) {
+            System.out.println("Configuration file not found!");
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            System.out.println("Error read configuration file!");
+            e.printStackTrace();
+        }
+        try {
+            Class.forName("org.postgresql.Driver");
+            CONNECTION = DriverManager.getConnection(url, name, password);
+        } catch (Exception ex) {
+            System.out.println("Driver load error!");
+            ex.printStackTrace();
+        }
+    }
+
 
     public Integer createStudent(Student student) {
-        Connection connection = null;
         String insertSql = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
                 + "VALUES(nextval('id'),?,?,?,?,?) RETURNING id";
 
 
         try {
-            connection = new ConnectionGetter().getConnection();
-            PreparedStatement st = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement st = CONNECTION.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, student.getGroupId());
             st.setString(2, student.getName());
             st.setString(3, student.getSurName());
@@ -38,9 +68,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (connection != null) {
+            if (CONNECTION != null) {
                 try {
-                    connection.close();
+                    CONNECTION.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -53,13 +83,12 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
     public Student getStudent(Integer id) {
 
-        Connection connection = null;
+
         Student student = null;
         String select = "SELECT * FROM students WHERE id=?";
 
         try {
-            connection = new ConnectionGetter().getConnection();
-            PreparedStatement prepareStatement = connection.prepareStatement(select);
+            PreparedStatement prepareStatement = CONNECTION.prepareStatement(select);
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
 
@@ -71,9 +100,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (connection != null) {
+            if (CONNECTION != null) {
                 try {
-                    connection.close();
+                    CONNECTION.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -95,12 +124,10 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
 
     public void deleteStudent(Integer id) {
-        Connection connection = null;
         String delete = "DELETE FROM students WHERE id=?";
 
         try {
-            connection = new ConnectionGetter().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(delete);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(delete);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -108,9 +135,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (connection != null) {
+            if (CONNECTION != null) {
                 try {
-                    connection.close();
+                    CONNECTION.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -121,11 +148,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
 
     public void updateStudent(Student student) {
-        Connection connection = null;
         String update = "UPDATE students SET group_id=?, name=?, sur_name=?, exam_result=?, enrolment_date=? WHERE id=?";
         try {
-            connection = new ConnectionGetter().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(update);
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(update);
             preparedStatement.setInt(1, student.getGroupId());
             preparedStatement.setString(2, student.getName());
             preparedStatement.setString(3, student.getSurName());
@@ -139,9 +164,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (connection != null) {
+            if (CONNECTION != null) {
                 try {
-                    connection.close();
+                    CONNECTION.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -153,13 +178,11 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
     public List<Student> listStudents() {
         List<Student> studentList = new ArrayList<>();
-        Connection connection = null;
         ResultSet resultSet;
         String select = "SELECT * FROM students";
 
         try {
-            connection = new ConnectionGetter().getConnection();
-            Statement statement = connection.createStatement();
+            Statement statement = CONNECTION.createStatement();
             resultSet = statement.executeQuery(select);
             while (resultSet.next()) {
                 Student st = createStudentFromResultSet(resultSet);
@@ -170,9 +193,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (connection != null) {
+            if (CONNECTION != null) {
                 try {
-                    connection.close();
+                    CONNECTION.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
