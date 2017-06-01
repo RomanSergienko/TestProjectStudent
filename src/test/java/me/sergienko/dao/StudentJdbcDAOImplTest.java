@@ -1,61 +1,58 @@
 package me.sergienko.dao;
 
 import me.sergienko.model.Student;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.MethodSorters;
 
-import java.sql.Date;
-import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 @RunWith(BlockJUnit4ClassRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StudentJdbcDAOImplTest {
-    static StudentJdbcDAOImpl studentJdbcDAO = new StudentJdbcDAOImpl();
-    static Student student = new Student();
+
 
     @Test
-    public void a_createStudent() throws Exception {
-
+    public void crudStudent() throws Exception {
+        StudentJdbcDAOImpl studentJdbcDAO = new StudentJdbcDAOImpl();
+        //Test createStudent
+        Student student = new Student();
         student.setGroupId(100);
         student.setName("John");
         student.setSurName("Petrucci");
         student.setRatingEge(100.00);
-        student.setEnrolmentDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        student.setEnrolmentDate(new java.util.Date());
         Integer id = studentJdbcDAO.createStudent(student);
-        assertTrue("Method 'createStudent' return  null id", id != null);
-    }
+        assertNotNull("Method 'createStudent' returns  null id", id);
 
-    @Test
-    public void b_getStudent() throws Exception {
+        //Test getStudent
         Student student1 = studentJdbcDAO.getStudent(student.getId());
-        assertEquals(student.getId(), student1.getId());
+        assertEquals("Method 'getStudent' returns invalid data", student.getId(), student1.getId());
+        //TODO assert all fields
 
-
-    }
-
-    @Test
-    public void c_deleteStudent() throws Exception {
+        //Test deleteStudent
         studentJdbcDAO.deleteStudent(student.getId());
-        Student student1 = studentJdbcDAO.getStudent(student.getId());
-        assertTrue(student1 == null);
+        Student student2 = studentJdbcDAO.getStudent(student.getId());
+        assertNull("Method 'deleteSudent' doesn't delete row", student2);
+        //Test updateStudent
+        studentJdbcDAO.createStudent(student);
+        Student student3 = new Student();
+        student3.setGroupId(150);
+        student3.setName("Joe");
+        student3.setSurName("Satriani");
+        student3.setRatingEge(150.00);
+        student3.setEnrolmentDate(new Date());
+        studentJdbcDAO.updateStudent(student3);
+        studentJdbcDAO.deleteStudent(student3.getId());
+        //TODO add asserts
+        //Test listStudents
+        List<Student> students = studentJdbcDAO.listStudents();
+        for (Student st : students) {
+            System.out.println(st);
+        }
+
     }
-
-    @Test
-    public void d_updateStudent() throws Exception {
-        System.out.println("Test updateStudent");
-
-
-    }
-
-    @Test
-    public void e_listStudents() throws Exception {
-        System.out.println("Test listStudents");
-
-    }
-
 }
+

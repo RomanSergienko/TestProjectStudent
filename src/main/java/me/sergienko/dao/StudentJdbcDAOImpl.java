@@ -12,11 +12,11 @@ import java.util.Properties;
 
 class StudentJdbcDAOImpl implements StudentDAO {
 
-    private  String url;
-    private  String name;
-    private  String password;
+    private String url;
+    private String name;
+    private String password;
 
-    public StudentJdbcDAOImpl() {
+    StudentJdbcDAOImpl() {
 
         Properties properties = new Properties();
 
@@ -46,13 +46,13 @@ class StudentJdbcDAOImpl implements StudentDAO {
 
 
         try (Connection connection = DriverManager.getConnection(url, name, password);
-             PreparedStatement st = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)){
+             PreparedStatement st = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
             st.setInt(1, student.getGroupId());
             st.setString(2, student.getName());
             st.setString(3, student.getSurName());
             st.setDouble(4, student.getRatingEge());
-            st.setDate(5, (Date) student.getEnrolmentDate());
+            st.setDate(5, new Date(student.getEnrolmentDate().getTime()));
 
             st.executeUpdate();
 
@@ -73,7 +73,7 @@ class StudentJdbcDAOImpl implements StudentDAO {
         String select = "SELECT * FROM students WHERE id=?";
 
         try (Connection connection = DriverManager.getConnection(url, name, password);
-             PreparedStatement prepareStatement = connection.prepareStatement(select)){
+             PreparedStatement prepareStatement = connection.prepareStatement(select)) {
 
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
@@ -81,8 +81,6 @@ class StudentJdbcDAOImpl implements StudentDAO {
             while (resultSet.next()) {
                 student = createStudentFromResultSet(resultSet);
             }
-            prepareStatement.close();
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -104,8 +102,8 @@ class StudentJdbcDAOImpl implements StudentDAO {
     public void deleteStudent(Integer id) {
         String delete = "DELETE FROM students WHERE id=?";
 
-        try(Connection connection = DriverManager.getConnection(url, name, password);
-            PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
+        try (Connection connection = DriverManager.getConnection(url, name, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
 
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -120,8 +118,8 @@ class StudentJdbcDAOImpl implements StudentDAO {
     public void updateStudent(Student student) {
         String update = "UPDATE students SET group_id=?, name=?, sur_name=?, exam_result=?, enrolment_date=? WHERE id=?";
 
-        try(Connection connection = DriverManager.getConnection(url, name, password);
-            PreparedStatement preparedStatement = connection.prepareStatement(update)) {
+        try (Connection connection = DriverManager.getConnection(url, name, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(update)) {
 
             preparedStatement.setInt(1, student.getGroupId());
             preparedStatement.setString(2, student.getName());
@@ -130,9 +128,6 @@ class StudentJdbcDAOImpl implements StudentDAO {
             preparedStatement.setDate(5, (Date) student.getEnrolmentDate());
             preparedStatement.setInt(6, student.getId());
             preparedStatement.executeUpdate();
-            preparedStatement.close();
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -144,15 +139,14 @@ class StudentJdbcDAOImpl implements StudentDAO {
         ResultSet resultSet;
         String select = "SELECT * FROM students";
 
-        try(Connection connection = DriverManager.getConnection(url, name, password);
-            Statement statement = connection.createStatement()) {
+        try (Connection connection = DriverManager.getConnection(url, name, password);
+             Statement statement = connection.createStatement()) {
 
             resultSet = statement.executeQuery(select);
             while (resultSet.next()) {
                 Student st = createStudentFromResultSet(resultSet);
                 studentList.add(st);
             }
-            statement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
