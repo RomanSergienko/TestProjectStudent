@@ -1,6 +1,7 @@
 package me.sergienko.dao;
 
 import me.sergienko.model.Student;
+import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-
+@Component
 public class StudentJdbcDAOImpl implements StudentDAO {
 
     private String url;
