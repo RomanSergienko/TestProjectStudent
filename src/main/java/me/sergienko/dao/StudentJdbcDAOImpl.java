@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Properties;
 
 
-class StudentJdbcDAOImpl implements StudentDAO {
+public class StudentJdbcDAOImpl implements StudentDAO {
 
     private String url;
     private String name;
     private String password;
 
-    StudentJdbcDAOImpl() {
+    public StudentJdbcDAOImpl() {
 
         Properties properties = new Properties();
 
