@@ -43,6 +43,10 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         }
     }
 
+    public StudentJdbcDAOImpl() {
+
+    }
+
     public Integer createStudent(Student student) {
         String insertSql = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
                 + " VALUES(nextval('id'),?,?,?,?,?) RETURNING id";
