@@ -3,6 +3,7 @@ package me.sergienko.dao;
 import me.sergienko.model.Student;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
@@ -16,8 +17,9 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     private String url;
     private String name;
     private String password;
+    private DataSource dataSource;
 
-    public StudentJdbcDAOImpl() {
+    public StudentJdbcDAOImpl(DataSource dataSource) {
 
         Properties properties = new Properties();
 
@@ -53,7 +55,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             st.setString(2, student.getName());
             st.setString(3, student.getSurName());
             st.setDouble(4, student.getRatingEge());
-            st.setDate(5, student.getEnrolmentDate());
+            st.setDate(5, (Date) student.getEnrolmentDate());
 
             st.executeUpdate();
 
@@ -126,7 +128,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             preparedStatement.setString(2, student.getName());
             preparedStatement.setString(3, student.getSurName());
             preparedStatement.setDouble(4, student.getRatingEge());
-            preparedStatement.setDate(5, student.getEnrolmentDate());
+            preparedStatement.setDate(5, (Date) student.getEnrolmentDate());
             preparedStatement.setInt(6, student.getId());
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
