@@ -4,47 +4,19 @@ import me.sergienko.model.Student;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Component
 public class StudentJdbcDAOImpl implements StudentDAO {
 
-    private String url;
-    private String name;
-    private String password;
     private DataSource dataSource;
+
 
     public StudentJdbcDAOImpl(DataSource dataSource) {
 
-        Properties properties = new Properties();
-
-        try (FileInputStream fis = new FileInputStream("src/main/resources/db.properties")) {
-            properties.load(fis);
-            url = properties.getProperty("db.host");
-            name = properties.getProperty("db.login");
-            password = properties.getProperty("db.password");
-        } catch (FileNotFoundException e) {
-            System.out.println("Configuration file not found!");
-            e.printStackTrace();
-        } catch (java.io.IOException e) {
-            System.out.println("Error read configuration file!");
-            e.printStackTrace();
-        }
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Driver load error!");
-            e.printStackTrace();
-        }
-    }
-
-    public StudentJdbcDAOImpl() {
-
+        this.dataSource = dataSource;
     }
 
     public Integer createStudent(Student student) {
@@ -52,14 +24,14 @@ public class StudentJdbcDAOImpl implements StudentDAO {
                 + " VALUES(nextval('id'),?,?,?,?,?) RETURNING id";
 
 
-        try (Connection connection = DriverManager.getConnection(url, name, password);
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement st = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
             st.setInt(1, student.getGroupId());
             st.setString(2, student.getName());
             st.setString(3, student.getSurName());
             st.setDouble(4, student.getRatingEge());
-            st.setDate(5, (Date) student.getEnrolmentDate());
+            st.setDate(5, student.getEnrolmentDate());
 
             st.executeUpdate();
 
@@ -79,7 +51,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         Student student = null;
         String select = "SELECT * FROM students WHERE id=?";
 
-        try (Connection connection = DriverManager.getConnection(url, name, password);
+        try (Connection connection =  dataSource.getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(select)) {
 
             prepareStatement.setInt(1, id);
@@ -109,7 +81,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     public void deleteStudent(Integer id) {
         String delete = "DELETE FROM students WHERE id=?";
 
-        try (Connection connection = DriverManager.getConnection(url, name, password);
+        try (Connection connection =  dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
 
             preparedStatement.setInt(1, id);
@@ -125,14 +97,14 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     public void updateStudent(Student student) {
         String update = "UPDATE students SET group_id=?, name=?, sur_name=?, exam_result=?, enrolment_date=? WHERE id=?";
 
-        try (Connection connection = DriverManager.getConnection(url, name, password);
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
 
             preparedStatement.setInt(1, student.getGroupId());
             preparedStatement.setString(2, student.getName());
             preparedStatement.setString(3, student.getSurName());
             preparedStatement.setDouble(4, student.getRatingEge());
-            preparedStatement.setDate(5, (Date) student.getEnrolmentDate());
+            preparedStatement.setDate(5, student.getEnrolmentDate());
             preparedStatement.setInt(6, student.getId());
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
@@ -146,7 +118,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         ResultSet resultSet;
         String select = "SELECT * FROM students";
 
-        try (Connection connection = DriverManager.getConnection(url, name, password);
+        try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
             resultSet = statement.executeQuery(select);
