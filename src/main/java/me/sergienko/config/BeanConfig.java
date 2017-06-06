@@ -9,12 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
+
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan
 @PropertySource("src/main/resources/db.properties")
-public class BeenConfig {
+public class BeanConfig {
 
     @Bean(name = "studentJdbcDAO")
     StudentDAO studentDAO() {
