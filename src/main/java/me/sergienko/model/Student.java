@@ -1,14 +1,29 @@
 package me.sergienko.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
-
+@Entity
+@Table(name = "students")
 public class Student {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "sur_name")
     private String surName;
+
+    @Column(name = "group_id")
     private int groupId;
+
+    @Column(name = "enrolment_date")
     private Date enrolmentDate;
+
+    @Column(name = "exam_result")
     private double ratingEge;
 
     public int getId() {
