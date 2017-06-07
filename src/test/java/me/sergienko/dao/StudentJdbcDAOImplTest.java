@@ -1,24 +1,38 @@
 package me.sergienko.dao;
 
+import me.sergienko.config.BeanConfig;
 import me.sergienko.model.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.sql.DataSource;
 import java.sql.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = BeanConfig.class)
 public class StudentJdbcDAOImplTest {
-    private DataSource dataSource;
+
+
+    private StudentDAO studentDAO;
+
+    public StudentJdbcDAOImplTest() {
+
+    }
+
+    @Autowired
+    public StudentJdbcDAOImplTest(StudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
+    }
+
+
 
     @Test
     public void crudStudent() throws Exception {
-        StudentDAO studentDAO = new StudentJdbcDAOImpl(dataSource);
-
         //Test createStudent
         Student student = new Student();
         student.setGroupId(100);
