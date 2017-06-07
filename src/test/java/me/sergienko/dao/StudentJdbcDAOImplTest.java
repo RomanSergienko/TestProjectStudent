@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -17,19 +18,8 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = BeanConfig.class)
 public class StudentJdbcDAOImplTest {
 
-
-    private StudentDAO studentDAO;
-
-    public StudentJdbcDAOImplTest() {
-
-    }
-
     @Autowired
-    public StudentJdbcDAOImplTest(StudentDAO studentDAO) {
-        this.studentDAO = studentDAO;
-    }
-
-
+    private StudentDAO studentDAO;
 
     @Test
     public void crudStudent() throws Exception {
@@ -39,12 +29,14 @@ public class StudentJdbcDAOImplTest {
         student.setName("John");
         student.setSurName("Petrucci");
         student.setRatingEge(100.00);
-        student.setEnrolmentDate(new Date(1980, 2, 2));
+        GregorianCalendar calendar = new GregorianCalendar(1980, 2, 2);
+        student.setEnrolmentDate(calendar.getTime());
         Integer id = studentDAO.createStudent(student);
         assertNotNull("Method 'createStudent' returns  null id", id);
 
         //Test getStudent
         Student student1 = studentDAO.getStudent(student.getId());
+        assertNotNull("Student id NULL", student1.getId());
         assertEquals("Method 'getStudent' returns invalid data: 'id'", student.getId(), student1.getId());
         assertEquals("Method 'getStudent' returns invalid data: 'name'", student.getName(), student1.getName());
         assertEquals("Method 'getStudent' returns invalid data: 'surName'", student.getSurName(), student1.getSurName());
@@ -65,7 +57,8 @@ public class StudentJdbcDAOImplTest {
         student1.setName("Joe");
         student1.setSurName("Satriani");
         student1.setRatingEge(150.00);
-        student1.setEnrolmentDate(new Date(1986, 3, 3));
+        GregorianCalendar calendar1 = new GregorianCalendar(1958, 3, 4);
+        student1.setEnrolmentDate(calendar1.getTime());
         studentDAO.updateStudent(student1);
         student = studentDAO.getStudent(i2);
         assertEquals("Method 'getStudent' returns invalid data: 'id'", student.getId(), student1.getId());
@@ -82,8 +75,6 @@ public class StudentJdbcDAOImplTest {
             System.out.println(st);
         }
         assertFalse("Method 'listStudents' return empty array", students.isEmpty());
-
     }
-
 }
 

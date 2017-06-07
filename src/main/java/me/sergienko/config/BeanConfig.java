@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 @PropertySource("classpath:db.properties")
 public class BeanConfig {
 
-    @Bean(name = "studentJdbcDAO")
+    @Bean
     StudentDAO studentDAO() {
         return new StudentJdbcDAOImpl(dataSource());
     }

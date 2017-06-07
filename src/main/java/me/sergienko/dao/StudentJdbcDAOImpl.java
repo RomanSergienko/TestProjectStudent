@@ -32,7 +32,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             st.setString(2, student.getName());
             st.setString(3, student.getSurName());
             st.setDouble(4, student.getRatingEge());
-            st.setDate(5, (Date) student.getEnrolmentDate());
+            st.setDate(5, new Date(student.getEnrolmentDate().getTime()));
 
             st.executeUpdate();
 
@@ -105,7 +105,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             preparedStatement.setString(2, student.getName());
             preparedStatement.setString(3, student.getSurName());
             preparedStatement.setDouble(4, student.getRatingEge());
-            preparedStatement.setDate(5, (Date) student.getEnrolmentDate());
+            preparedStatement.setDate(5, new Date(student.getEnrolmentDate().getTime()));
             preparedStatement.setInt(6, student.getId());
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
