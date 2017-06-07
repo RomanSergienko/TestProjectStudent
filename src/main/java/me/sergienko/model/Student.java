@@ -1,7 +1,7 @@
 package me.sergienko.model;
 
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "students")

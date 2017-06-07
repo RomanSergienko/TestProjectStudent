@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
-
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan
-@PropertySource("src/main/resources/db.properties")
+@PropertySource("classpath:db.properties")
 public class BeanConfig {
 
     @Bean(name = "studentJdbcDAO")
@@ -23,8 +22,7 @@ public class BeanConfig {
     }
 
     @Bean
-    public DataSource dataSource()
-    {
+    public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
@@ -35,7 +33,6 @@ public class BeanConfig {
 
     @Autowired
     Environment env;
-
 
 
 }

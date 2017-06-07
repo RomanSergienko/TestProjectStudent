@@ -13,9 +13,9 @@ public class StudentApp {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(BeanConfig.class);
         StudentJdbcDAOImpl bean = context.getBean(StudentJdbcDAOImpl.class);
-        List<Student> list = bean.listStudents();
-        for (Student student:list){
-            System.out.println(student);
+        List<Student> students = bean.listStudents();
+        for (Student st : students) {
+            System.out.println(st);
         }
     }
 }
