@@ -22,7 +22,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
     public Integer createStudent(Student student) {
         String insertSql = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
-                + " VALUES(nextval('id'),?,?,?,?,?) RETURNING id";
+                + " VALUES(nextval('id'),?,?,?,?,?)";
 
 
         try (Connection connection = dataSource.getConnection();
@@ -41,7 +41,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
                 student.setId(genKeys.getInt(1));
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Create student failed!");
         }
 
         return student.getId();
@@ -62,7 +62,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
                 student = createStudentFromResultSet(resultSet);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Get student failed!");
         }
         return student;
     }
@@ -90,7 +90,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             preparedStatement.close();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Delete student failed!");
         }
     }
 
@@ -109,7 +109,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             preparedStatement.setInt(6, student.getId());
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Update student failed!");
         }
     }
 
@@ -129,7 +129,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Getting list of student failed!");
         }
         return studentList;
     }
