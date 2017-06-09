@@ -1,7 +1,7 @@
 package me.sergienko.config;
 
+import me.sergienko.dao.SessionFactoryDAOImpl;
 import me.sergienko.dao.StudentDAO;
-import me.sergienko.dao.StudentJdbcDAOImpl;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class BeanConfig {
 
     @Bean
     StudentDAO studentDAO() {
-        return new StudentJdbcDAOImpl(dataSource());
+        return new SessionFactoryDAOImpl();
     }
 
     @Bean
