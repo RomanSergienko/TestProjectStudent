@@ -17,8 +17,8 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    protected Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 
     @Override
