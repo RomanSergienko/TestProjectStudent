@@ -3,7 +3,6 @@ package me.sergienko;
 
 import me.sergienko.config.BeanConfig;
 import me.sergienko.dao.StudentDAO;
-import me.sergienko.dao.StudentJdbcDAOImpl;
 import me.sergienko.model.Student;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
