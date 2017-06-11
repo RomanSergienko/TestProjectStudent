@@ -1,7 +1,6 @@
 package me.sergienko.config;
 
-import me.sergienko.dao.SessionFactoryDAOImpl;
-import me.sergienko.dao.StudentDAO;
+import me.sergienko.dao.*;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -20,6 +20,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan
 @PropertySource("classpath:db.properties")
+@EnableTransactionManagement
 public class BeanConfig {
 
     @Bean
@@ -44,8 +45,7 @@ public class BeanConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(
-                new String[]{"me.sergienko.config.model"});
+        sessionFactory.setPackagesToScan(new String[]{"me.sergienko"});
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
