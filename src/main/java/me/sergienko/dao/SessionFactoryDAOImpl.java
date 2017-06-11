@@ -2,23 +2,38 @@ package me.sergienko.dao;
 
 
 import me.sergienko.model.Student;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
 public class SessionFactoryDAOImpl implements StudentDAO {
 
-    @Autowired
     private SessionFactory sessionFactory;
 
-    protected Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+    private EntityManager entityManager;
+
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -58,10 +73,11 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     @Override
     @Transactional
     public List<Student> listStudents() {
-        Session session = this.sessionFactory.getCurrentSession();
-        CriteriaQuery<Student> criteriaQuery = session.getCriteriaBuilder().createQuery(Student.class);
-        criteriaQuery.from(Student.class);
-        List<Student> studentsList = session.createQuery(criteriaQuery).getResultList();
-        return studentsList;
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Student> query = builder.createQuery(Student.class);
+        Root<Student> variableRoot = query.from(Student.class);
+        query.select(variableRoot);
+
+        return entityManager.createQuery(query).getResultList();
     }
 }
