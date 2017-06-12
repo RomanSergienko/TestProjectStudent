@@ -17,26 +17,26 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Integer createStudent(Student student) {
-        return null;
+        return this.studentDAO.createStudent(student);
     }
 
     @Override
     public Student getStudent(Integer id) {
-        return null;
+        return this.studentDAO.getStudent(id);
     }
 
     @Override
     public void deleteStudent(Integer id) {
-
+        this.studentDAO.deleteStudent(id);
     }
 
     @Override
     public void updateStudent(Student student) {
-
+        this.studentDAO.updateStudent(student);
     }
 
     @Override
     public List<Student> listStudents() {
-        return null;
+        return this.studentDAO.listStudents();
     }
 }
