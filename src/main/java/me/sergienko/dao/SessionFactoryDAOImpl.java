@@ -19,17 +19,13 @@ import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Component
+@Repository
 public class SessionFactoryDAOImpl implements StudentDAO {
 
     private SessionFactory sessionFactory;
 
-    private EntityManager entityManager;
-
     @PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
