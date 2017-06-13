@@ -4,7 +4,7 @@ import me.sergienko.model.Student;
 
 import java.util.List;
 
-interface StudentService {
+public interface StudentService {
     Integer createStudent(Student student);
 
     Student getStudent(Integer id);
