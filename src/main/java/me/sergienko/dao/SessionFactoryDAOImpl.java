@@ -1,6 +1,5 @@
 package me.sergienko.dao;
 
-
 import me.sergienko.model.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -52,7 +51,6 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     }
 
     @Override
-
     public List<Student> listStudents() {
         Session session = this.sessionFactory.getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
