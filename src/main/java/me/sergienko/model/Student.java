@@ -6,9 +6,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "students")
 public class Student {
+
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="id_seq", sequenceName="id", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_seq")
     private int id;
 
     @Column(name = "name")
