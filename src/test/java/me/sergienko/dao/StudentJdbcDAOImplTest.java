@@ -65,7 +65,7 @@ public class StudentJdbcDAOImplTest {
         assertEquals("Method 'getStudent' returns invalid data: 'surName'", student.getSurName(), student1.getSurName());
         assertEquals("Method 'getStudent' returns invalid data: 'groupId'", student.getGroupId(), student1.getGroupId());
         assertEquals("Method 'getStudent' returns invalid data: 'ratingEge'", student.getRatingEge(), student1.getRatingEge(), 0);
-        assertEquals("Method 'getStudent' returns invalid data: 'EnrolmentDate'", student.getEnrolmentDate(), student1.getEnrolmentDate());
+        assertEquals("Method 'getStudent' returns invalid data: 'EnrolmentDate'", student.getEnrolmentDate().getTime(), student1.getEnrolmentDate().getTime());
         studentDAO.deleteStudent(student1.getId());
 
         //Test listStudents
