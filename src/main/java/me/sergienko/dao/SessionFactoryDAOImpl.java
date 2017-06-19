@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -12,52 +13,52 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
+
 public class SessionFactoryDAOImpl implements StudentDAO {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    protected Session getCurrentSession(){
-        return sessionFactory.getCurrentSession();
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
+    @Transactional
     public Integer createStudent(Student student) {
-        this.getCurrentSession().persist(student);
+        Session session = sessionFactory.getCurrentSession();
+        session.save(student);
         return student.getId();
     }
 
     @Override
+    @Transactional
     public Student getStudent(Integer id) {
-        Student student = (Student) this.getCurrentSession().load(Student.class, id);
+        Student student = sessionFactory.getCurrentSession().get(Student.class, id);
         return student;
     }
 
     @Override
-
+    @Transactional
     public void deleteStudent(Integer id) {
-        Session session = this.getCurrentSession();
-        Student student = (Student) session.load(Student.class, id);
-        if (student!=null)
-        {
+        Session session = sessionFactory.getCurrentSession();
+        Student student = session.load(Student.class, id);
+        if (student != null) {
             session.delete(student);
         }
     }
 
     @Override
+    @Transactional
     public void updateStudent(Student student) {
-        this.getCurrentSession().update(student);
+        sessionFactory.getCurrentSession().update(student);
     }
 
     @Override
+    @Transactional
     public List<Student> listStudents() {
-        Session session = this.sessionFactory.getCurrentSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
-        Root<Student> contactRoot = criteria.from(Student.class);
-        criteria.select(contactRoot);
-        List<Student> studentsList = session.createQuery(criteria).getResultList();
+        Session session = sessionFactory.getCurrentSession();
+        List<Student> studentsList = session.createCriteria(Student.class).list();
 
         return studentsList;
     }
