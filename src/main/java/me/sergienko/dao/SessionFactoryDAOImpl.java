@@ -5,11 +5,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-
 public class SessionFactoryDAOImpl implements StudentDAO {
 
     @Autowired
@@ -28,7 +27,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Student getStudent(Integer id) {
         Student student = sessionFactory.getCurrentSession().get(Student.class, id);
         return student;
@@ -51,7 +50,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Student> listStudents() {
         Session session = sessionFactory.getCurrentSession();
         List<Student> studentsList = session.createCriteria(Student.class).list();
