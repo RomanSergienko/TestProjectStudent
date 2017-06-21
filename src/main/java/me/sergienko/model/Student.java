@@ -22,6 +22,7 @@ public class Student {
     @Column(name = "group_id")
     private int groupId;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "enrolment_date")
     private Date enrolmentDate;
 
