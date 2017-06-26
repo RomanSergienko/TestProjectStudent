@@ -1,6 +1,7 @@
 package me.sergienko.dao;
 
 import me.sergienko.model.Student;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -14,7 +15,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
 
     private DataSource dataSource;
 
-
+    @Autowired
     public StudentJdbcDAOImpl(DataSource dataSource) {
 
         this.dataSource = dataSource;
