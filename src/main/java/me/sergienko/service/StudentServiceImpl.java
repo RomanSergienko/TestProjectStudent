@@ -2,6 +2,7 @@ package me.sergienko.service;
 
 import me.sergienko.dao.StudentDAO;
 import me.sergienko.model.Student;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService{
 
+
     private StudentDAO studentDAO;
 
+    @Autowired
     public void setStudentDAO(StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
     }
