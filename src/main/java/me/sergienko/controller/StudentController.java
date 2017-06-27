@@ -16,7 +16,7 @@ public class StudentController {
 
 
     @RequestMapping(value = "students", method = RequestMethod.GET)
-    public String listBooks(Model model){
+    public String listStudent(Model model){
         model.addAttribute("student", new Student());
         model.addAttribute("listStudents", this.studentService.listStudents());
 
