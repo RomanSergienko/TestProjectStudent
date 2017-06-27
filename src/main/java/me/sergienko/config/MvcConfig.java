@@ -37,10 +37,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
         return bean;
     }
 
-    @Bean(name = "multipartResolver")
-    public CommonsMultipartResolver getMultipartResolver() {
-        return new CommonsMultipartResolver();
-    }
 
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource getMessageSource() {
