@@ -14,4 +14,8 @@ public interface StudentService {
     void updateStudent(Student student);
 
     List<Student> listStudents();
+
+    Integer getRecordsCount();
+
+    List<Student> getRecordsLimitOffset(Integer limit, Integer offset);
 }
