@@ -1,8 +1,10 @@
 package me.sergienko.dao;
 
 import me.sergienko.model.Student;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +13,10 @@ import java.util.List;
 @Repository
 public class SessionFactoryDAOImpl implements StudentDAO {
 
-    @Autowired
-    SessionFactory sessionFactory;
 
+    private SessionFactory sessionFactory;
+
+    @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -29,8 +32,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     @Override
     @Transactional(readOnly = true)
     public Student getStudent(Integer id) {
-        Student student = sessionFactory.getCurrentSession().get(Student.class, id);
-        return student;
+        return sessionFactory.getCurrentSession().get(Student.class, id);
     }
 
     @Override
@@ -53,8 +55,16 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     @Transactional(readOnly = true)
     public List<Student> listStudents() {
         Session session = sessionFactory.getCurrentSession();
-        List<Student> studentsList = session.createCriteria(Student.class).list();
 
-        return studentsList;
+        return (List<Student>) session.createCriteria(Student.class).list();
+    }
+
+    @Override
+    @Transactional
+    public Integer getRecordsCount () {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Student.class);
+        criteria.setProjection(Projections.rowCount());
+        return Integer.parseInt(criteria.list().get(0).toString());
     }
 }
