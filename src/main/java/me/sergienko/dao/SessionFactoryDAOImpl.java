@@ -74,8 +74,8 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     public List<Student> getRecordsLimitOffset(Integer limit, Integer offset) {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
-        criteria.setFirstResult(limit);
-        criteria.setMaxResults(offset);
+        criteria.setFirstResult(offset);
+        criteria.setMaxResults(limit);
         return (List<Student>) criteria.list();
     }
 }
