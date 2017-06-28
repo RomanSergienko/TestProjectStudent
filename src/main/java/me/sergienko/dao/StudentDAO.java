@@ -15,4 +15,6 @@ public interface StudentDAO {
     void updateStudent(Student student);
 
     List<Student> listStudents();
+
+    Integer getRecordsCount();
 }
