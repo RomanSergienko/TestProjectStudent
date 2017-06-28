@@ -53,7 +53,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         Student student = null;
         String select = "SELECT * FROM students WHERE id=?";
 
-        try (Connection connection =  dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(select)) {
 
             prepareStatement.setInt(1, id);
@@ -83,7 +83,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     public void deleteStudent(Integer id) {
         String delete = "DELETE FROM students WHERE id=?";
 
-        try (Connection connection =  dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
 
             preparedStatement.setInt(1, id);
@@ -133,5 +133,21 @@ public class StudentJdbcDAOImpl implements StudentDAO {
             throw new RuntimeException("Getting list of student failed!");
         }
         return studentList;
+    }
+
+    @Override
+    public Integer getRecordsCount() {
+        int result = 0;
+        String selectCount = "SELECT COUNT(*) FROM students";
+        try (Connection connection = dataSource.getConnection();
+             Statement st = connection.createStatement()) {
+            ResultSet genKeys = st.executeQuery(selectCount);
+            if (genKeys.next()) {
+                result=genKeys.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
