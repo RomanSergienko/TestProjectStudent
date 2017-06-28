@@ -17,4 +17,6 @@ public interface StudentDAO {
     List<Student> listStudents();
 
     Integer getRecordsCount();
+
+    List<Student> getRecordsLimitOffset(Integer limit, Integer offset);
 }
