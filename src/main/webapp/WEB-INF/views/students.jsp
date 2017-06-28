@@ -9,7 +9,21 @@
 </head>
 <body>
 <a href="index.jsp">Back to main</a>
-<h1>Users List</h1>
+<h2>Users List</h2>
+
+<div style="float:left; margin:5px;">
+    <td><a href=""><< Previous</a></td>
+    <td><a href="">Next >></a></td>
+</div>
+
+<div style="float:left; margin:5px;">
+    <form>
+        <input type="number" min="1" max="100">
+        <input type="submit" value="Go to"/>
+    </form>
+</div>
+
+<div style="float:left; margin:5px;">Pages: 60</div>
 
 <c:if test="${!empty listStudents}">
 <table border="1" width="90%">
