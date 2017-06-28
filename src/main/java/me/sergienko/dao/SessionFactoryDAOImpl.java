@@ -61,7 +61,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Integer getRecordsCount () {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
@@ -70,7 +70,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Student> getRecordsLimitOffset(Integer limit, Integer offset) {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
