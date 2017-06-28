@@ -150,4 +150,26 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         }
         return result;
     }
+
+    @Override
+    public List<Student> getRecordsLimitOffset(Integer limit, Integer offset) {
+        List<Student> studentListLimitOffset = new ArrayList<>();
+        ResultSet resultSet;
+        String selectLimitOffset = "SELECT * FROM students LIMIT ? OFFSET ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectLimitOffset)) {
+            statement.setInt(1, limit);
+            statement.setInt(2,offset);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Student st = createStudentFromResultSet(resultSet);
+                studentListLimitOffset.add(st);
+            }
+
+        } catch (Exception ex) {
+            throw new RuntimeException("Getting list of student with limit and offset failed!");
+        }
+        return studentListLimitOffset;
+    }
 }
