@@ -21,6 +21,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         this.dataSource = dataSource;
     }
 
+    @Override
     public Integer createStudent(Student student) {
         String insertSql = "INSERT INTO students (id,group_id,name,sur_name,exam_result,enrolment_date)"
                 + " VALUES(nextval('id'),?,?,?,?,?)";
@@ -48,7 +49,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         return student.getId();
     }
 
-
+    @Override
     public Student getStudent(Integer id) {
         Student student = null;
         String select = "SELECT * FROM students WHERE id=?";
@@ -79,7 +80,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         return st;
     }
 
-
+    @Override
     public void deleteStudent(Integer id) {
         String delete = "DELETE FROM students WHERE id=?";
 
@@ -95,7 +96,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         }
     }
 
-
+    @Override
     public void updateStudent(Student student) {
         String update = "UPDATE students SET group_id=?, name=?, sur_name=?, exam_result=?, enrolment_date=? WHERE id=?";
 
@@ -114,7 +115,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
         }
     }
 
-
+    @Override
     public List<Student> listStudents() {
         List<Student> studentList = new ArrayList<>();
         ResultSet resultSet;
@@ -136,7 +137,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Integer getRecordsCount() {
+    public Integer getStudentCount() {
         int result = 0;
         String selectCount = "SELECT COUNT(*) FROM students";
         try (Connection connection = dataSource.getConnection();
@@ -152,7 +153,7 @@ public class StudentJdbcDAOImpl implements StudentDAO {
     }
 
     @Override
-    public List<Student> getRecordsLimitOffset(Integer limit, Integer offset) {
+    public List<Student> listStudents(Integer limit, Integer offset) {
         List<Student> studentListLimitOffset = new ArrayList<>();
         ResultSet resultSet;
         String selectLimitOffset = "SELECT * FROM students LIMIT ? OFFSET ?";

@@ -62,16 +62,16 @@ public class SessionFactoryDAOImpl implements StudentDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public Integer getRecordsCount () {
+    public Integer getStudentCount() {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
         criteria.setProjection(Projections.rowCount());
-        return Integer.parseInt(criteria.list().get(0).toString());
+        return (Integer) criteria.uniqueResult();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Student> getRecordsLimitOffset(Integer limit, Integer offset) {
+    public List<Student> listStudents(Integer limit, Integer offset) {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
         criteria.setFirstResult(offset);
