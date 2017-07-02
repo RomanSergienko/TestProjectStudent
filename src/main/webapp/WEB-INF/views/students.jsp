@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>View Users</title>
+    <title>View Students</title>
 </head>
 <body>
 <a href="index.jsp">Back to main</a>
@@ -17,13 +17,13 @@
 </div>
 
 <div style="float:left; margin:5px;">
-    <form>
+    <form method="get">
         <input type="number" min="1" max="100">
         <input type="submit" value="Go to"/>
     </form>
 </div>
 
-<div style="float:left; margin:5px;">Pages: 60</div>
+<div style="float:left; margin:5px;">Pages: ${allpage}</div>
 
 <c:if test="${!empty listStudents}">
 <table border="1" width="90%">
@@ -34,6 +34,8 @@
         <th>Surname</th>
         <th>Rating Ege</th>
         <th>Enrolment Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     <c:forEach items="${listStudents}" var="student">
         <tr>
@@ -43,6 +45,8 @@
             <td>${student.surName}</td>
             <td>${student.ratingEge}</td>
             <td>${student.enrolmentDate}</td>
+            <td><a href="<c:url value="/delete/${student.id}"/>">Delete</a></td>
+            <td><a href="<c:url value="/edit/${student.id}"/>">Edit</a></td>
         </tr>
         </c:forEach>
 </table>
