@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Student Management</h1>
-<a href="<c:url value="/students"/>">Students list</a>
+<a href="<c:url value="/students"/>">Students list</a> <br>
+<a href="<c:url  value="/addstudent"/>">Add student</a>
 </body>
 </html>
