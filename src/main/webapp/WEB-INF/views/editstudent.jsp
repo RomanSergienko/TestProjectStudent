@@ -7,7 +7,7 @@
     <title>Edit Student</title>
 </head>
 <body>
-<a href="index.jsp">Back to main</a>
+<a href="../students">Back to list</a>
 <h2>Edit student</h2>
 
 <form:form method="POST" action="editstudent" modelAttribute="student">
