@@ -2,7 +2,6 @@ package me.sergienko.dao;
 
 import me.sergienko.model.Student;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -66,7 +65,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return Integer.parseInt(criteria.uniqueResult().toString());
     }
 
     @Override
