@@ -31,11 +31,16 @@
 <table border="1" width="90%">
     <tr>
         <th>Id</th>
-        <th>GroupId</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Rating Ege</th>
-        <th>Enrolment Date</th>
+        <th><a href="<c:url value="SortAscendingGroupId"/>">▲</a> GroupId <a
+                href="<c:url value="SortDescendingGroupId"/>">▼</a></th>
+        <th><a href="<c:url value="SortAscendingName"/>">▲</a> Name <a href="<c:url value="SortDescendingName"/>">▼</a>
+        </th>
+        <th><a href="<c:url value="SortAscendingSurname"/>">▲</a> Surname <a
+                href="<c:url value="SortDescendingSurname"/>">▼</a></th>
+        <th><a href="<c:url value="SortAscendingRatingEge"/>">▲</a> Rating Ege <a
+                href="<c:url value="SortDescendingRatingEge"/>">▼</a></th>
+        <th><a href="<c:url value="SortAscendingEnrolmenDate"/>">▲</a> Enrolment Date <a
+                href="<c:url value="SortDescendingEnrolmenDate"/>">▼</a></th>
         <th>Delete</th>
         <th>Edit</th>
     </tr>
