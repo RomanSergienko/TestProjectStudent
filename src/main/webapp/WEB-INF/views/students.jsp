@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 
 <html>
@@ -8,7 +10,7 @@
     <title>View Students</title>
 </head>
 <body>
-<a href="index.jsp">Back to main</a>
+<a href="../../index.jsp">Back to main</a>
 <h2>Users List</h2>
 
 <div style="float:left; margin:5px;">
@@ -34,8 +36,8 @@
         <th>Surname</th>
         <th>Rating Ege</th>
         <th>Enrolment Date</th>
-        <th>Edit</th>
         <th>Delete</th>
+        <th>Edit</th>
     </tr>
     <c:forEach items="${listStudents}" var="student">
         <tr>
@@ -51,5 +53,88 @@
         </c:forEach>
 </table>
 </c:if>
+<h2>Add/Edit student</h2>
+<c:url var="addAction" value="/students/add"/>
+<form:form action="${addAction}" commandName="student">
+    <table>
+        <c:if test="${!empty student.name}">
+            <tr>
+                <td>
+                    <form:label path="id">
+                        <spring:message text="ID"/>
+                    </form:label>
+                </td>
+                <td>
+                    <form:input path="id" readonly="true" size="8" disabled="true"/>
+                    <form:hidden path="id"/>
+                </td>
+            </tr>
+        </c:if>
+        <tr>
+            <td>
+                <form:label path="groupId">
+                    <spring:message text="GroupId"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="groupId"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="name">
+                    <spring:message text="Name"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="surName">
+                    <spring:message text="Surname"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="surName"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="ratingEge">
+                    <spring:message text="Rating EGE"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="ratingEge"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="enrolmentDate">
+                    <spring:message text="Enrolment Date"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="enrolmentDate"/>
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td>
+                <c:if test="${!empty student.name}">
+                    <input type="submit"
+                           value="<spring:message text="Edit Student"/>"/>
+                </c:if>
+                <c:if test="${empty student.name}">
+                    <input type="submit"
+                           value="<spring:message text="Add Student"/>"/>
+                </c:if>
+            </td>
+        </tr>
+        </tr>
+    </table>
+</form:form>
 </body>
 </html>
