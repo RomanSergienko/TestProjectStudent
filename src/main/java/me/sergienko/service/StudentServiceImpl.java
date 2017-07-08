@@ -44,13 +44,12 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Integer getRecordsCount() {
+    public Integer getStudentCount() {
         return this.studentDAO.getStudentCount();
     }
 
     @Override
-    public List<Student> getRecordsLimitOffset(Integer limit, Integer offset) {
+    public List<Student> listStudents(Integer limit, Integer offset) {
         return this.studentDAO.listStudents(limit, offset);
     }
-
 }
