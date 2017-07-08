@@ -65,7 +65,7 @@ public class SessionFactoryDAOImpl implements StudentDAO {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Student.class);
         criteria.setProjection(Projections.rowCount());
-        return Integer.parseInt(criteria.uniqueResult().toString());
+        return ((Long) criteria.uniqueResult()).intValue();
     }
 
     @Override
