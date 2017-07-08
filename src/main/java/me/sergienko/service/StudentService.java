@@ -15,7 +15,7 @@ public interface StudentService {
 
     List<Student> listStudents();
 
-    Integer getRecordsCount();
+    Integer getStudentCount();
 
-    List<Student> getRecordsLimitOffset(Integer limit, Integer offset);
+    List<Student> listStudents(Integer limit, Integer offset);
 }
